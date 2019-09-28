@@ -62,15 +62,14 @@ function addTask() {
 function deleteTask(e) {
   if (e.target.parentElement.classList.contains("delete")) {
     const id = e.target.parentElement.dataset.id;
-    if (confirm("You sure?")) {
-      http
-        .delete(`http://localhost:3000/todos/${id}`)
-        .then(data => {
-          ui.showAlert("zadanie usunięte", "alert alert-success");
-          getTasks();
-        })
-        .catch(err => console.log(err));
-    }
+
+    http
+      .delete(`http://localhost:3000/todos/${id}`)
+      .then(data => {
+        ui.showAlert("zadanie usunięte", "alert alert-success");
+        getTasks();
+      })
+      .catch(err => console.log(err));
   }
 
   e.preventDefault();
