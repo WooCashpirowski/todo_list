@@ -1,0 +1,29 @@
+body {
+  height: 100vh;
+  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+}
+
+.container-tasks {
+  width: 50%;
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete {
+  color: red;
+}
+
+@media (max-width: 768px) {
+  .container-tasks {
+    width: 100%;
+  }
+}
