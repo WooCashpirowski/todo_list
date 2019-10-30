@@ -5,12 +5,13 @@ import "./index.css";
 // Get tasks on DOM load
 
 document.addEventListener("DOMContentLoaded", getTasks);
+
 document.querySelector(".task-submit").addEventListener("click", addTask);
 
 const tasksSection = document.querySelector("#tasks");
-
 tasksSection.addEventListener("click", deleteTask);
 tasksSection.addEventListener("click", enableEdit);
+tasksSection.addEventListener("click", markAsCompleted);
 
 document.querySelector(".card-form").addEventListener("click", cancelEdit);
 
@@ -26,9 +27,11 @@ function addTask() {
   const title = document.querySelector("#title").value;
   const body = document.querySelector("#body").value;
   const id = document.querySelector("#id").value;
+  let completed = false;
   const data = {
     title,
-    body
+    body,
+    completed
   };
 
   // Walidacja inputów
@@ -39,7 +42,7 @@ function addTask() {
       // Stwórz taska
       http
         .post("http://localhost:3000/todos", data)
-        .then(data => {
+        .then(() => {
           ui.showAlert("dodano zadanie", "alert alert-success");
           ui.clearFields();
           getTasks();
@@ -49,9 +52,9 @@ function addTask() {
       // Zaktualizuj taska
       http
         .put(`http://localhost:3000/todos/${id}`, data)
-        .then(data => {
+        .then(() => {
           ui.showAlert("zadanie zaktualizowane", "alert alert-success");
-          ui.changeFormState("");
+          ui.showEditState("");
           getTasks();
         })
         .catch(err => console.log(err));
@@ -65,9 +68,9 @@ function deleteTask(e) {
 
     http
       .delete(`http://localhost:3000/todos/${id}`)
-      .then(data => {
-        ui.showAlert("zadanie usunięte", "alert alert-success");
+      .then(() => {
         getTasks();
+        ui.showAlert("zadanie usunięte", "alert alert-success");
       })
       .catch(err => console.log(err));
   }
@@ -96,9 +99,56 @@ function enableEdit(e) {
   e.preventDefault();
 }
 
+function markAsCompleted(e) {
+  const checkBox = e.target.parentElement;
+  const id = e.target.parentElement.dataset.id;
+  const title =
+    checkBox.parentElement.nextElementSibling.firstElementChild.textContent;
+  const body =
+    checkBox.parentElement.nextElementSibling.lastElementChild.textContent;
+  let completed = true;
+  let data;
+
+  if (checkBox.classList.contains("checkbox")) {
+    checkBox.innerHTML = `<i class="far fa-check-circle"></i>`;
+    checkBox.classList.remove("checkbox");
+    checkBox.parentElement.nextElementSibling.classList.add("line-through");
+
+    data = {
+      title,
+      body,
+      completed
+    };
+
+    http
+      .put(`http://localhost:3000/todos/${id}`, data)
+      .then(() => {
+        ui.showAlert("zadanie wykonane", "alert alert-success");
+      })
+      .catch(err => console.log(err));
+  } else {
+    checkBox.innerHTML = `<i class="far fa-circle"></i>`;
+    checkBox.classList.add("checkbox");
+    checkBox.parentElement.nextElementSibling.classList.remove("line-through");
+    completed = false;
+    data = {
+      title,
+      body,
+      completed
+    };
+    http
+      .put(`http://localhost:3000/todos/${id}`, data)
+      .then(() => {
+        ui.showAlert("zadanie wznowione", "alert alert-danger");
+      })
+      .catch(err => console.log(err));
+  }
+  e.preventDefault();
+}
+
 function cancelEdit(e) {
   if (e.target.classList.contains("task-cancel")) {
-    ui.changeFormState("");
+    ui.showEditState("");
   }
 
   e.preventDefault();

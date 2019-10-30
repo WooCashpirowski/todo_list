@@ -27,5 +27,5 @@ npm run build
 ## Run JSON server
 
 ```
-npm run json:server
+npm run server
 ```

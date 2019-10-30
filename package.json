@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --open",
     "build": "webpack -p",
-    "json:server": "json-server --watch api/db.json"
+    "server": "json-server --watch api/db.json"
   },
   "author": "",
   "license": "ISC",

@@ -14,7 +14,10 @@ class UI {
     tasks.forEach(task => {
       output += `
             <div class="card mb-3">
-              <div class="card-body">
+              <div class="card-body task">
+                <div>
+                  <a href="#" class="checkbox card-link" data-id="${task.id}"><i class="far fa-circle"></i></a>
+                </div>
                 <div>
                   <h5 class="card-title font-weight-bold">${task.title}</h5>
                   <p class="card-text">${task.body}</p>
@@ -35,8 +38,7 @@ class UI {
     div.className = className;
     div.appendChild(document.createTextNode(message));
     const container = document.querySelector(".container-tasks");
-    const tasks = document.querySelector("#tasks");
-    container.insertBefore(div, tasks);
+    container.insertBefore(div, this.task);
     setTimeout(() => {
       this.clearAlert();
     }, 1500);
@@ -50,16 +52,17 @@ class UI {
   clearFields() {
     this.titleInput.value = "";
     this.bodyInput.value = "";
+    this.idInput.value = "";
   }
   fillForm(data) {
     this.idInput.value = data.id;
     this.titleInput.value = data.title;
     this.bodyInput.value = data.body;
 
-    this.changeFormState("edit");
+    this.showEditState("edit");
   }
 
-  changeFormState(type) {
+  showEditState(type) {
     if (type === "edit") {
       this.taskSubmit.textContent = "Zapisz";
       this.taskSubmit.className = "task-submit btn btn-warning btn-block";
@@ -68,21 +71,23 @@ class UI {
       cancelBtn.appendChild(document.createTextNode("Anuluj"));
 
       const cardForm = document.querySelector(".card-form");
-      const formEnd = document.querySelector("form-end");
-      cardForm.insertBefore(cancelBtn, formEnd);
+      cardForm.appendChild(cancelBtn);
+      // const formEnd = document.querySelector("form-end");
+      // cardForm.insertBefore(cancelBtn, formEnd);
     } else {
       this.taskSubmit.textContent = "Dodaj";
       this.taskSubmit.className = "task-submit btn btn-primary btn-block";
-      if (document.querySelector(".task-cancel")) {
-        document.querySelector(".task-cancel").remove();
-      }
-      this.clearIdInput();
+      // if (document.querySelector(".task-cancel")) {
+      //   document.querySelector(".task-cancel").remove();
+      // }
+      document.querySelector(".task-cancel").remove();
+      // this.clearIdInput();
       this.clearFields();
     }
   }
-  clearIdInput() {
-    this.idInput.value = "";
-  }
+  // clearIdInput() {
+  //   this.idInput.value = "";
+  // }
 }
 
 export const ui = new UI();

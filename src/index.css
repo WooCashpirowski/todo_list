@@ -1,15 +1,29 @@
 body {
-  height: 100vh;
-  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+  min-height: 100vh;
+  background-image: linear-gradient(to top, #a9abc2 0%, #e2ebf0 100%);
+}
+
+/* utilities */
+.line-through {
+  text-decoration: line-through;
 }
 
 .container-tasks {
   width: 50%;
 }
 
-.card-body {
+.task {
   display: flex;
   justify-content: space-between;
+}
+
+.task > div:first-child,
+.task > div:last-child {
+  flex-grow: 1;
+}
+
+.task > div:nth-child(2) {
+  flex-grow: 20;
 }
 
 .task-options {
