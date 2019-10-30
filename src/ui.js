@@ -41,7 +41,7 @@ class UI {
     container.insertBefore(div, this.task);
     setTimeout(() => {
       this.clearAlert();
-    }, 1500);
+    }, 1000);
   }
   clearAlert() {
     const currentAlert = document.querySelector(".alert");

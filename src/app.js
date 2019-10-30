@@ -122,9 +122,6 @@ function markAsCompleted(e) {
 
     http
       .put(`http://localhost:3000/todos/${id}`, data)
-      .then(() => {
-        ui.showAlert("zadanie wykonane", "alert alert-success");
-      })
       .catch(err => console.log(err));
   } else {
     checkBox.innerHTML = `<i class="far fa-circle"></i>`;
@@ -138,11 +135,9 @@ function markAsCompleted(e) {
     };
     http
       .put(`http://localhost:3000/todos/${id}`, data)
-      .then(() => {
-        ui.showAlert("zadanie wznowione", "alert alert-danger");
-      })
       .catch(err => console.log(err));
   }
+
   e.preventDefault();
 }
 
